@@ -8,23 +8,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .product-list { max-height: 300px; overflow-y: auto; scrollbar-color: var(--green) #eef3ef; scrollbar-width: thin; }
+    </style>
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand"><span class="brand-mark">L</span><span class="brand-name">Local<span>caixa</span></span></div>
         <nav class="side-nav" aria-label="Navegacao principal">
-          <a class="nav-item active" href="#produtos"><span class="nav-icon">⊞</span><span>Produtos</span></a>
+          <a class="nav-item active" href="#caixa"><span class="nav-icon">▣</span><span>Caixa</span></a>
+          <a class="nav-item" href="#produtos"><span class="nav-icon">⊞</span><span>Produtos</span></a>
         </nav>
         <div class="sidebar-bottom"><div class="store-status"><span></span><div><strong>Caixa aberto</strong><small>Hoje, 03 set 2026</small></div></div><button class="profile-button" type="button" aria-label="Abrir perfil">DL</button></div>
       </aside>
-      <main class="main-content" id="produtos">
-        <header class="topbar"><button class="collapse-button" id="collapseSidebar" type="button" aria-label="Recolher menu" title="Recolher menu">‹</button><div><p class="overline">Cadastro</p><h1>Produtos</h1></div><div class="topbar-actions"><span class="date-label">03 de setembro de 2026</span><button class="icon-button" type="button" aria-label="Notificacoes">♢</button></div></header>
-        <div class="catalog-layout">
+      <main class="main-content" id="caixa">
+        <header class="topbar"><button class="collapse-button" id="collapseSidebar" type="button" aria-label="Recolher menu" title="Recolher menu">‹</button><div><p class="overline">Ponto de venda</p><h1>Caixa</h1></div><div class="topbar-actions"><span class="date-label">03 de setembro de 2026</span><button class="icon-button" type="button" aria-label="Notificacoes">♢</button></div></header>
+        <div class="sale-layout">
           <section class="catalog" id="produtos">
-            <div class="section-heading"><div><p class="overline">Catalogo</p><h2>Produtos cadastrados</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto" /></label></div>
+            <div class="section-heading"><div><p class="overline">Catalogo</p><h2>O que vamos vender?</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto para venda" /></label></div>
             <div class="category-list" id="categoryList"></div>
           </section>
+          <aside class="receipt-panel" aria-label="Nota da venda">
+            <div class="receipt-header"><div><p class="overline">Venda atual</p><h2>Nota da venda</h2></div><button class="clear-button" id="clearSale" type="button">Limpar</button></div>
+            <div class="receipt-items" id="receiptItems"><div class="empty-receipt"><span>＋</span><strong>Sua nota esta vazia</strong><small>Selecione um item ao lado para começar</small></div></div>
+            <div class="totals"><div><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div><div class="total-row"><span>Total</span><strong id="grandTotal">R$ 0,00</strong></div></div>
+            <button class="finish-button" id="finishSale" type="button">Finalizar venda <span>→</span></button>
+          </aside>
         </div>
       </main>
     </div>
