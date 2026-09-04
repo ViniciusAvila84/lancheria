@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Caixa Local | Nova venda</title>
+    <title>Caixa Local | Produtos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -14,30 +14,20 @@
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand"><span class="brand-mark">L</span><span class="brand-name">Local<span>caixa</span></span></div>
         <nav class="side-nav" aria-label="Navegacao principal">
-          <a class="nav-item active" href="#venda"><span class="nav-icon">▣</span><span>Nova venda</span></a>
-          <a class="nav-item" href="#produtos"><span class="nav-icon">⊞</span><span>Produtos</span></a>
-          <a class="nav-item" href="#historico"><span class="nav-icon">◷</span><span>Historico</span></a>
+          <a class="nav-item active" href="#produtos"><span class="nav-icon">⊞</span><span>Produtos</span></a>
         </nav>
         <div class="sidebar-bottom"><div class="store-status"><span></span><div><strong>Caixa aberto</strong><small>Hoje, 03 set 2026</small></div></div><button class="profile-button" type="button" aria-label="Abrir perfil">DL</button></div>
       </aside>
-      <main class="main-content" id="venda">
-        <header class="topbar"><button class="collapse-button" id="collapseSidebar" type="button" aria-label="Recolher menu" title="Recolher menu">‹</button><div><p class="overline">Ponto de venda</p><h1>Nova venda</h1></div><div class="topbar-actions"><span class="date-label">03 de setembro de 2026</span><button class="icon-button" type="button" aria-label="Notificacoes">♢</button></div></header>
-        <div class="sale-layout">
+      <main class="main-content" id="produtos">
+        <header class="topbar"><button class="collapse-button" id="collapseSidebar" type="button" aria-label="Recolher menu" title="Recolher menu">‹</button><div><p class="overline">Cadastro</p><h1>Produtos</h1></div><div class="topbar-actions"><span class="date-label">03 de setembro de 2026</span><button class="icon-button" type="button" aria-label="Notificacoes">♢</button></div></header>
+        <div class="catalog-layout">
           <section class="catalog" id="produtos">
-            <div class="section-heading"><div><p class="overline">Catalogo</p><h2>O que vamos vender?</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto" /></label></div>
+            <div class="section-heading"><div><p class="overline">Catalogo</p><h2>Produtos cadastrados</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto" /></label></div>
             <div class="category-list" id="categoryList"></div>
           </section>
-          <aside class="receipt-panel" aria-label="Nota da venda">
-            <div class="receipt-header"><div><p class="overline">Venda #0048</p><h2>Nota atual</h2></div><button class="clear-button" id="clearSale" type="button">Limpar</button></div>
-            <div class="receipt-items" id="receiptItems"><div class="empty-receipt"><span>＋</span><strong>Sua nota esta vazia</strong><small>Selecione um item ao lado para começar</small></div></div>
-            <div class="manual-adjustments"><div class="adjustment-header"><h3>Valores da nota</h3><button class="add-adjustment" id="toggleAdjustment" type="button">＋ Adicionar</button></div><div class="adjustment-form" id="adjustmentForm" hidden><label>Tipo<select id="adjustmentType"><option value="additional">Adicional</option><option value="discount">Desconto</option></select></label><label>Descricao<input id="adjustmentDescription" type="text" placeholder="Ex.: embalagem especial" /></label><label>Valor<input id="adjustmentValue" type="number" min="0" step="0.01" placeholder="0,00" /></label><button class="confirm-adjustment" id="addAdjustment" type="button">Inserir na nota</button></div><div id="adjustmentList"></div></div>
-            <div class="totals"><div><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div><div class="discount-row" id="discountRow" hidden><span>Descontos</span><strong id="discountTotal">- R$ 0,00</strong></div><div class="total-row"><span>Total</span><strong id="grandTotal">R$ 0,00</strong></div></div>
-            <button class="finish-button" id="finishSale" type="button">Finalizar venda <span>→</span></button>
-          </aside>
         </div>
       </main>
     </div>
-    <div class="toast" id="toast" role="status"></div>
     <script src="script.js"></script>
   </body>
 </html>
