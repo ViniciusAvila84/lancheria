@@ -17,27 +17,45 @@
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand"><span class="brand-mark">L</span><span class="brand-name">Local<span>caixa</span></span></div>
         <nav class="side-nav" aria-label="Navegacao principal">
-          <a class="nav-item active" href="#caixa"><span class="nav-icon">▣</span><span>Caixa</span></a>
-          <a class="nav-item" href="#produtos"><span class="nav-icon">⊞</span><span>Produtos</span></a>
+          <a class="nav-item active" href="#caixa" data-view="caixa"><span class="nav-icon">▣</span><span>Caixa</span></a>
+          <a class="nav-item" href="#comandas" data-view="comandas"><span class="nav-icon">☰</span><span>Comanda</span></a>
         </nav>
         <div class="sidebar-bottom"><div class="store-status"><span></span><div><strong>Caixa aberto</strong><small>Hoje, 03 set 2026</small></div></div><button class="profile-button" type="button" aria-label="Abrir perfil">DL</button></div>
       </aside>
-      <main class="main-content" id="caixa">
+      <main class="main-content">
         <header class="topbar"><button class="collapse-button" id="collapseSidebar" type="button" aria-label="Recolher menu" title="Recolher menu">‹</button><div><p class="overline">Ponto de venda</p><h1>Caixa</h1></div><div class="topbar-actions"><span class="date-label">03 de setembro de 2026</span><button class="icon-button" type="button" aria-label="Notificacoes">♢</button></div></header>
-        <div class="sale-layout">
-          <section class="catalog" id="produtos">
-            <div class="section-heading"><div><p class="overline">Catalogo</p><h2>O que vamos vender?</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto para venda" /></label></div>
-            <div class="category-list" id="categoryList"></div>
+
+        <div class="page-panels">
+          <section class="page-panel active" data-panel="caixa" id="caixa">
+            <div class="sale-layout">
+              <section class="catalog" id="produtos">
+                <div class="section-heading"><div><p class="overline">Catalogo</p><h2>O que vamos vender?</h2></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar produto para venda" /></label></div>
+                <div class="category-list" id="categoryList"></div>
+              </section>
+              <aside class="receipt-panel" aria-label="Nota da venda">
+                <div class="receipt-header"><div><p class="overline">Venda atual</p><h2>Nota da venda</h2></div><button class="clear-button" id="clearSale" type="button">Limpar</button></div>
+                <div class="receipt-items" id="receiptItems"><div class="empty-receipt"><span>＋</span><strong>Sua nota esta vazia</strong><small>Selecione um item ao lado para começar</small></div></div>
+                <div class="totals"><div><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div><div class="total-row"><span>Total</span><strong id="grandTotal">R$ 0,00</strong></div></div>
+                <button class="finish-button" id="finishSale" type="button">Finalizar venda <span>→</span></button>
+              </aside>
+            </div>
           </section>
-          <aside class="receipt-panel" aria-label="Nota da venda">
-            <div class="receipt-header"><div><p class="overline">Venda atual</p><h2>Nota da venda</h2></div><button class="clear-button" id="clearSale" type="button">Limpar</button></div>
-            <div class="receipt-items" id="receiptItems"><div class="empty-receipt"><span>＋</span><strong>Sua nota esta vazia</strong><small>Selecione um item ao lado para começar</small></div></div>
-            <div class="totals"><div><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div><div class="total-row"><span>Total</span><strong id="grandTotal">R$ 0,00</strong></div></div>
-            <button class="finish-button" id="finishSale" type="button">Finalizar venda <span>→</span></button>
-          </aside>
+
+          <section class="page-panel" data-panel="comandas" id="comandas">
+            <div class="comandas-layout">
+              <div class="comandas-sidebar">
+                <div class="section-heading compact"><div><p class="overline">Atendimento</p><h2>Comandas</h2></div><button class="primary-button" id="newComanda" type="button">+ Nova comanda</button></div>
+                <div class="comanda-list" id="comandaList"></div>
+              </div>
+              <div class="comanda-detail-panel">
+                <div id="comandaDetail"></div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
   </body>
 </html>
