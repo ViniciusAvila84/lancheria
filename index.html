@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DkLanches | Sistema de Caixa</title>
+    <link rel="stylesheet" href="/static/styles.css?v=20260926-relatorio-periodo" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <div class="brand-mark">DK</div>
+          <div>
+            <h1>DkLanches</h1>
+            <p>Caixa local</p>
+          </div>
+        </div>
+        <button id="toggleSidebarBtn" class="sidebar-toggle" type="button" aria-label="Recolher menu">‹</button>
+
+        <nav class="menu-nav">
+          <button class="nav-btn active" data-view="caixa">Caixa</button>
+          <button class="nav-btn" data-view="vendas">Vendas</button>
+          <button class="nav-btn" data-view="produtos">Produtos</button>
+          <button class="nav-btn" data-view="comandas">Comanda</button>
+          <button class="nav-btn" data-view="relatorios">Relatórios</button>
+        </nav>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Sistema interno</p>
+            <h2 id="viewTitle">Caixa</h2>
+          </div>
+          <div class="badge">Aberto</div>
+        </header>
+
+        <section id="caixa" class="view-panel active-view">
+          <div class="caixa-layout">
+            <div class="products-box">
+              <div class="section-title-row">
+                <div class="section-title">Produtos</div>
+                <input id="buscarProdutosInput" type="search" placeholder="Buscar produto para venda" />
+              </div>
+              <div id="listaProdutos" class="category-list"></div>
+            </div>
+
+            <div class="sale-box">
+              <div class="cart-box">
+                <div class="section-title">Resumo da venda</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Qtd</th>
+                      <th>Vl. unit.</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody id="carrinhoTabela"></tbody>
+                </table>
+                <div id="carrinhoVazio" class="empty-state">Nenhum item adicionado.</div>
+              </div>
+
+              <div class="payment-box">
+                <div class="section-title">Pagamento</div>
+
+                <label>
+                  Forma de pagamento
+                  <select id="formaPagamento">
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Pix">Pix</option>
+                  </select>
+                </label>
+
+                <label>
+                  Valor recebido
+                  <input id="valorRecebido" type="number" min="0" step="0.01" value="0" />
+                </label>
+
+                <div class="totals">
+                  <div>
+                    <span>Total</span>
+                    <strong id="totalPedido">R$ 0,00</strong>
+                  </div>
+                  <div>
+                    <span>Troco</span>
+                    <strong id="trocoPedido">R$ 0,00</strong>
+                  </div>
+                </div>
+
+                <button id="finalizarVenda" class="primary-btn">Finalizar venda</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="receipt-box">
+            <div class="receipt-header">
+              <h3>Cupom fiscal</h3>
+              <span id="numeroCupom">DK-000000</span>
+            </div>
+            <div id="cupomConteudo" class="receipt-content">
+              <p>Não há venda finalizada no momento.</p>
+            </div>
+            <div class="ticket-actions">
+              <button id="imprimirCupomBtn" class="secondary-btn" type="button">Imprimir cupom</button>
+              <button id="exportarCupomBtn" class="secondary-btn" type="button">Exportar JSON</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="vendas" class="view-panel">
+          <div class="panel-card">
+            <div class="section-title-row">
+              <h3>Últimas vendas</h3>
+              <input id="buscarVendasInput" type="search" placeholder="Buscar cupom, data ou pagamento" />
+            </div>
+            <table class="compact-table">
+              <thead>
+                <tr>
+                  <th>Cupom</th>
+                  <th>Data</th>
+                  <th>Pagamento</th>
+                  <th>Total</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaVendas"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="produtos" class="view-panel">
+          <div class="panel-card">
+            <div class="section-title-row">
+              <h3>Cadastro de produtos</h3>
+            </div>
+
+            <form id="formProduto" class="form-grid">
+              <input id="produtoEditId" type="hidden" value="" />
+              <label>
+                Nome
+                <input id="produtoNome" name="nome" type="text" placeholder="Ex: Xis" required />
+              </label>
+              <label>
+                Categoria
+                <select id="produtoCategoria" name="categoria" required>
+                  <option value="" selected disabled>Selecione uma categoria</option>
+                  <option value="Bebidas">Bebidas</option>
+                  <option value="lanches">lanches</option>
+                  <option value="comida">comida</option>
+                  <option value="combos">combos</option>
+                  <option value="balcão">balcão</option>
+                </select>
+              </label>
+              <label>
+                Preço
+                <input id="produtoPreco" name="preco" type="number" min="0.01" step="0.01" placeholder="19.90" required />
+              </label>
+              <div class="button-stack">
+                <button type="submit" class="primary-btn small">Adicionar produto</button>
+                <button type="button" id="cancelarEdicaoBtn" class="secondary-btn small hidden">Cancelar</button>
+              </div>
+            </form>
+
+            <table class="compact-table product-table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Preço</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaProdutos"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="comandas" class="view-panel">
+          <div class="comandas-layout">
+            <div class="panel-card">
+              <div class="section-title-row">
+                <h3>Comandas abertas</h3>
+                <button id="novaComandaBtn" class="primary-btn small" type="button">+ Nova comanda</button>
+              </div>
+              <div id="listaComandas" class="comandas-list"></div>
+            </div>
+
+            <div class="panel-card">
+              <div class="section-title-row">
+                <h3 id="comandaTitulo">Comanda</h3>
+                <button id="fecharComandaBtn" class="secondary-btn small" type="button">Fechar comanda</button>
+              </div>
+
+              <div class="comanda-detail">
+                <div id="comandaResumo" class="summary-box">Selecione uma comanda.</div>
+
+                <div class="comanda-name-box">
+                  <label for="nomeComandaInput">Nome da comanda</label>
+                  <div class="comanda-name-row">
+                    <input id="nomeComandaInput" type="text" placeholder="Ex: Mesa 3 ou Cliente João" />
+                    <button id="salvarNomeComandaBtn" class="secondary-btn small" type="button">Salvar nome</button>
+                  </div>
+                </div>
+
+                <div class="comanda-payment-box">
+                  <label>
+                    Forma de pagamento
+                    <select id="formaPagamentoComanda">
+                      <option value="Dinheiro">Dinheiro</option>
+                      <option value="Cartão">Cartão</option>
+                      <option value="Pix">Pix</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Valor recebido
+                    <input id="valorRecebidoComanda" type="number" min="0" step="0.01" value="0" />
+                  </label>
+                </div>
+
+                <div class="section-subtitle">Adicionar itens</div>
+                <div id="listaProdutosComanda" class="category-list"></div>
+
+                <div class="section-subtitle">Itens da comanda</div>
+                <table class="compact-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Qtd</th>
+                      <th>Preço</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabelaComanda"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="relatorios" class="view-panel">
+          <div class="panel-card report-filters">
+            <div>
+              <h3>Relatórios de vendas</h3>
+              <p>Consulte o faturamento e cada venda registrada nas datas selecionadas.</p>
+            </div>
+            <div class="report-filter-controls">
+              <label>Data inicial<input id="relatorioDataInicio" type="date" /></label>
+              <label>Data final<input id="relatorioDataFim" type="date" /></label>
+              <button id="aplicarRelatorioBtn" class="primary-btn small" type="button">Aplicar período</button>
+            </div>
+            <div class="report-presets" aria-label="Atalhos de período">
+              <button type="button" data-period="today">Hoje</button>
+              <button type="button" data-period="yesterday">Ontem</button>
+              <button type="button" data-period="7days">Últimos 7 dias</button>
+              <button type="button" data-period="month">Este mês</button>
+            </div>
+            <p id="relatorioErro" class="report-error" role="alert"></p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Vendas no período</span>
+              <strong id="vendasPeriodo">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Faturamento total</span>
+              <strong id="faturamentoPeriodo">R$ 0,00</strong>
+            </div>
+            <div class="stat-card">
+              <span>Ticket médio</span>
+              <strong id="ticketMedioPeriodo">R$ 0,00</strong>
+            </div>
+            <div class="stat-card">
+              <span>Itens vendidos</span>
+              <strong id="itensVendidosPeriodo">0</strong>
+            </div>
+          </div>
+
+          <div class="panel-card dashboard-card">
+            <div class="section-title-row">
+              <h3>Resumo por dia</h3>
+              <span id="relatorioPeriodo" class="report-result-count" aria-live="polite"></span>
+            </div>
+            <div class="table-scroll">
+              <table class="compact-table">
+                <thead><tr><th>Data</th><th>Vendas</th><th>Dinheiro</th><th>Cartão</th><th>Pix</th><th>Total do dia</th></tr></thead>
+                <tbody id="tabelaResumoDiario"></tbody>
+                <tfoot id="rodapeResumoDiario"></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel-card dashboard-card">
+            <div class="section-title-row">
+              <h3>Vendas detalhadas</h3>
+              <span id="relatorioQuantidadeVendas" class="report-result-count"></span>
+            </div>
+            <div class="table-scroll">
+              <table class="compact-table report-sales-table">
+                <thead><tr><th>Data e hora</th><th>Cupom</th><th>Pagamento</th><th>Itens</th><th>Total</th></tr></thead>
+                <tbody id="tabelaVendasRelatorio"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel-card dashboard-card">
+            <div class="section-title-row">
+              <h3>Fechamento de caixa</h3>
+              <button id="fecharCaixaBtn" class="primary-btn small" type="button">Fechar caixa de hoje</button>
+            </div>
+            <div id="fechamentoResumo" class="summary-box">Ainda não houve fechamento hoje.</div>
+            <ul id="listaFechamentos" class="fechamento-list"></ul>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/script.js?v=20260926-cnpj"></script>
+  </body>
+</html>
